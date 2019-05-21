@@ -1,0 +1,201 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <script src="{{ url_for('static', filename='js/form.js') }}"></script>
+
+  <div class="container" style="text-align: center;"><h2>Create a Data Offering</h2></div>
+  <div id="MyTab" class="container" style="width: 50%;"> 
+    <ul id="MyUl" class="nav nav-tabs" style="text-align: center;">
+      <li class="active"><a  href="#1" data-toggle="tab"><strong>Data details</strong></a></li>
+      <li><a href="#2" data-toggle="tab"><strong>Upload dataset</strong></a></li>
+      <li><a href="#3" data-toggle="tab"><strong>License & Pricing</strong></a></li>
+    </ul>
+
+    <form id="MyForm" action="" method="post" enctype="multipart/form-data" novalidate>
+      {{ form.hidden_tag() }}
+      <div class="tab-content">
+        <div class="tab-pane active" id="1">
+          <br>
+          <p>
+            <strong>Type of offering*</strong>
+            <div class="btn-group btn-group-toggle" id="rdbtn-otype">
+              <label for="file-otu" class="btn btn-primary btn-otype active"> File (one time use)
+                <input type="radio" onclick="javascript:checkActive();" name="offering_type" id="file-otu" class="hide" value="1" checked>
+              </label>
+              <label for="file-sub" class="btn btn-primary btn-otype"> File (subscription based) 
+                <input type="radio" onclick="javascript:checkActive();" name="offering_type" id="file-sub" class="hide" value="2">
+              </label>
+              <!-- <label for="api" class="btn btn-primary btn-otype"> API
+                <input type="radio" onclick="javascript:checkActive();" name="offering_type" id="api" class="hide">
+              </label> -->
+            </div>
+          </p>
+          <p>
+            {{ form.offering_name.label }}<br>
+            {{ form.offering_name(class_="form-control", style="width:60%; display:inline;") }}
+            {% for error in form.offering_name.errors %}
+              <span class="alert alert-warning">[{{ error }}]</span>
+            {% endfor %}
+          </p>
+          <p>
+            {{ form.category.label }}<br>
+            {{ form.category(class_="form-control", style="width:60%; display:inline;") }}
+            {% for error in form.category.errors %} 
+              <span class="alert alert-warning">[{{ error }}]</span>
+            {% endfor %}
+          </p>
+          <p>
+            {{ form.description.label }}<br>
+            {{ form.description(class_="form-control", style="width:60%; display:inline;") }}
+            {% for error in form.description.errors %} 
+              <span class="alert alert-warning">[{{ error }}]</span>
+            {% endfor %}
+          </p>
+          <p>
+            {{ form.region.label }}<br>
+            {{ form.region(class_="form-control", style="width:60%; display:inline;") }}
+            {% for error in form.region.errors %} 
+              <span class="alert alert-warning">[{{ error }}]</span>
+            {% endfor %}
+          </p>
+          <p>
+            {{ form.date_created.label }}<br>
+            {{ form.date_created(class_="form-control", style="width:60%; display:inline;") }}
+            {% for error in form.date_created.errors %} 
+              <span class="alert alert-warning">[{{ error }}]</span>
+            {% endfor %}
+          </p>
+          <p>
+            {{ form.last_updated.label }}<br>
+            {{ form.last_updated(class_="form-control", style="width:60%; display:inline;") }}
+            {% for error in form.last_updated.errors %} 
+              <span class="alert alert-warning">[{{ error }}]</span>
+            {% endfor %}
+          </p>
+          <p id="upload-freq" style="display: none;">
+            {{ form.update_frequency.label }}<br>
+            {{ form.update_frequency(class_="form-control", style="width:60%; display:inline;", default=0) }}
+            {% for error in form.update_frequency.errors %} 
+              <span class="alert alert-warning">[{{ error }}]</span>
+            {% endfor %}
+          </p>
+          <a class="btn btn-primary btnNext pull-right" >Next</a>
+        </div>
+      <div class="tab-pane" id="2">
+        <p>
+          {{ form.dataset_upload.label }}<br>
+          {{ form.dataset_upload(style="width:60%; display:inline;") }}
+          {% for error in form.dataset_upload.errors %} 
+            <span class="alert alert-warning">[{{ error }}]</span>
+          {% endfor %}
+        </p>
+        <p>
+          {{ form.sample_upload.label }}<br>
+          {{ form.sample_upload(style="width:60%; display:inline;") }}
+          {% for error in form.sample_upload.errors %} 
+            <span class="alert alert-warning">[{{ error }}]</span>
+          {% endfor %}
+        </p>
+        <a class="btn btn-primary btnPrevious pull-left" >Previous</a>
+        <a class="btn btn-primary btnNext pull-right" >Next</a>
+      </div>
+      <div class="tab-pane" id="3">
+        <p>
+          {{ form.license_upload.label }}<br>
+          {{ form.license_upload(style="width:57%; display:inline;") }}
+          <span class="glyphicon glyphicon-info-sign icon_info" title="Upload a license as a text file. Choose a custom license or one of the open source licenses from www.opensource.org/licenses"></span>
+          {% for error in form.license_upload.errors %} 
+            <span class="alert alert-warning">[{{ error }}]</span>
+          {% endfor %}
+        </p>
+        <p>
+          {{ form.price.label }}<br>
+          {{ form.price(class_="form-control", style="width:60%; display:inline;") }}
+          {% for error in form.price.errors %} 
+            <span class="alert alert-warning">[{{ error }}]</span>
+          {% endfor %}
+        </p>
+        <p>
+          {{ form.calc(class_="btn btn-default", style="font-weight:bold;") }}
+          {{ form.suggested_price(class_="form-control", style="width:32%; display:inline;") }}
+          {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-warning" role="alert">
+              {{ message }}
+            </div>
+            {% endfor %}
+          {% endif %}
+          {% endwith %}
+
+        </p>
+        <a class="btn btn-primary btnPrevious pull-left" >Previous</a>
+        <p>
+          {{ form.submit(class_="btn btn-primary pull-right") }}
+        </p>
+      </div>
+    </div>
+    </form>    
+  </div>
+  <br>
+  <div id="successAlert" class="alert alert-success" role="alert" style="display:none;"></div>
+    <div id="errorAlert" class="alert alert-danger" role="alert" style="display:none;"></div>
+  <!-- <div id="ps" style="width: 50%; margin: 0 auto; display: none;">
+    <button type="submit" class="btn btn-default" form="MyForm">Get Price Suggestion</button>
+    <div id="successAlert" class="alert alert-success" role="alert" style="display:none;"></div>
+    <div id="errorAlert" class="alert alert-danger" role="alert" style="display:none;"></div>
+  </div> -->
+  
+  <br>
+
+  <script>
+    // Display Next-prev buttons
+    $('.btnNext').click(function(){$('.nav-tabs > .active').next('li').find('a').trigger('click');});
+    $('.btnPrevious').click(function(){$('.nav-tabs > .active').prev('li').find('a').trigger('click');});
+    $(':input:checked').parent('.btn').addClass('active');
+  </script>
+
+  <script>
+    //  Display Upload Frequency
+    var header = document.getElementById("rdbtn-otype");
+    var btns = header.getElementsByClassName("btn-otype");
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].addEventListener("click", function() {
+      var current = document.getElementsByClassName("btn-otype active");
+      if (current.length > 0) { 
+        current[0].className = current[0].className.replace(" active", "");
+      }
+      this.className += " active";
+      });
+    }
+
+    function checkActive() {
+      if (document.getElementById('file-sub').checked) {
+        document.getElementById('upload-freq').style.display = 'block';
+      }
+      else {
+        document.getElementById('upload-freq').style.display = 'none';
+      }
+    }
+  </script>
+
+  <script>
+    // Display Pop over
+    $(".icon_info").tooltip();
+  </script>
+
+  <!-- <script>
+
+    $('.nav-tabs a').click(function (e) {
+     e.preventDefault();
+     var activeTab = $($(this).attr('href')).index();
+     if (activeTab == 2) {
+      document.getElementById('ps').style.display = 'block';
+    }
+    else {
+      document.getElementById('ps').style.display = 'none';
+    }
+    });
+  </script> -->
+
+{% endblock %}

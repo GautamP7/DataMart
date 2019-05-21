@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container"> 
+    <ul class="nav nav-tabs nav-justified" style="text-align: center;">
+      <li><a href="{{ url_for('my_offerings') }}"><strong>My data offerings</strong></a></li>
+      <li><a href="{{ url_for('my_purchases') }}"><strong>My purchases</strong></a></li>
+      <li><a href="{{ url_for('profile') }}"><strong>Profile</strong></a></li>
+      <li class="active"><a href=""><strong>Payment details</strong></a></li>
+    </ul>
+    <div style="width: 40%; margin: 0 auto;">
+      <br>
+      <form action="" method="post" enctype="multipart/form-data" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+          {{ form.name.label }}<br>
+          {{ form.name(class_="form-control", style="width:62%; display:inline;") }}
+          {% for error in form.name.errors %}
+            <span class="alert alert-warning">[{{ error }}]</span>
+          {% endfor %}
+        </p>
+        <p>
+          {{ form.gov_id.label }}<br>
+          {{ form.gov_id(class_="form-control", style="width:62%; display:inline;") }}
+          {% for error in form.gov_id.errors %}
+            <span class="alert alert-warning">[{{ error }}]</span>
+          {% endfor %}
+        </p>
+        <p>
+          {{ form.currency.label }}<br>
+          {{ form.currency(class_="form-control", style="width:62%; display:inline;") }}
+          {% for error in form.currency.errors %}
+            <span class="alert alert-warning">[{{ error }}]</span>
+          {% endfor %}
+        </p>
+        <p>
+          {{ form.routing_number.label }}<br>
+          {{ form.routing_number(class_="form-control", style="width:62%; display:inline;") }}
+          {% for error in form.routing_number.errors %}
+            <span class="alert alert-warning">[{{ error }}]</span>
+          {% endfor %}
+        </p>
+        <p>
+          {{ form.account_number.label }}<br>
+          {{ form.account_number(class_="form-control", style="width:62%; display:inline;") }}
+          {% for error in form.account_number.errors %}
+            <span class="alert alert-warning">[{{ error }}]</span>
+          {% endfor %}
+        </p>
+        <p>
+          {{ form.submit(class_="btn btn-primary") }}
+        </p>
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-warning" style="width: 50%;" role="alert">
+              {{ message }}
+            </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+        <br>
+      </form>
+    </div>
+  </div>
+{% endblock %}

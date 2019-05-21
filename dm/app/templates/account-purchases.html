@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container"> 
+    <ul class="nav nav-tabs nav-justified" style="text-align: center;">
+      <li><a href="{{ url_for('my_offerings') }}"><strong>My data offerings</strong></a></li>
+      <li class="active"><a href=""><strong>My purchases</strong></a></li>
+      <li><a href="{{ url_for('profile') }}"><strong>Profile</strong></a></li>
+      <li><a href="{{ url_for('payment_details') }}"><strong>Payment details</strong></a></li>
+    </ul>
+    <div>
+      <br>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Dataset</th>
+            <th>Date purchased</th>
+            <th>Seller</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if purchases %}
+            {% for item in purchases %}
+              <tr>
+                <td><a href="{{ url_for('show_dataset_details', oid=item.dataset.OfferingId, dn=item.dataset.OfferingName.replace(' ', '-').lower()) }}" style="text-decoration: none;">{{ item.dataset.OfferingName }}</a></td>
+                <td>{{ item.SaleDate.strftime('%m/%d/%Y') }}</td>
+                <td>{{ item.dataset.owner.UserName }}</td>
+              </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td colspan="3">You have no purchases.</td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}

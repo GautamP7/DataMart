@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+  <head>
+    {% if title %}
+    <title>{{ title }} - DataMart</title>
+    {% else %}
+    <title>Welcome to DataMart</title>
+    {% endif %}
+    <link rel="stylesheet" media="screen" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-theme.min.css') }}">
+    <link rel="stylesheet" href='{{ url_for('static', filename='css/bootstrap.min.js') }}'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style type="text/css">
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      #wrapper {
+        min-height: 100%;
+        position: relative;
+        width: 100%;
+      }
+
+      #footer {
+        height: 20px;
+        width: 100%;
+        position: absolute;
+        left: 0px;
+        bottom: 0px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="wrapper" class="container">
+      {% block content %}
+        <br><br><br>
+        <div class="col-lg-offset-5">
+        <a href='{{ url_for('index') }}'>
+          <img src="{{ url_for('static', filename='images/dm.png') }}" width="80" height="80" alt="DataMart logo" />
+        </a>
+        <h2>Sign In</h2>
+        </div>
+        <div class="col-md-offset-4">
+        <form action="" method="post" novalidate>
+          {{ form.hidden_tag() }}
+          <p>
+            {{ form.username.label }}<br>
+            {{ form.username(class_="form-control", style="width:300px; display:inline;") }}
+            {% for error in form.username.errors %}
+            <span class="alert alert-warning">[{{ error }}]</span>
+            {% endfor %}
+          </p>
+          <p>
+            {{ form.password.label }}<br>
+            {{ form.password(class_="form-control", style="width:300px; display:inline;") }}
+            {% for error in form.password.errors %}
+            <span class="alert alert-warning">[{{ error }}]</span>
+            {% endfor %}
+          </p>
+          <p>
+            {{ form.remember_me(class_="form-check-input") }} {{ form.remember_me.label(style="display:inline;") }}
+            {% for error in form.remember_me.errors %}
+            <span class="alert alert-warning">[{{ error }}]</span>
+            {% endfor %}
+          </p>
+          <p>&nbsp;&nbsp; {{ form.submit(class_="btn btn-primary") }} &nbsp;Don't have an account? <a href="{{ url_for('signup') }}">Sign up</a></p>
+        </form>
+      </div>
+      {% endblock %}
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-warning col-md-offset-4" style="width:300px;" role="alert">
+          {{ message }}
+        </div>
+        {% endfor %}
+      {% endif %}
+      {% endwith %}
+      <br>
+      <div id="footer" class="container" style="background-color: rgb(36, 50, 63); color: white;">
+        &nbsp;&nbsp;
+        <a href="{{ url_for('about') }}" style="color: white; text-decoration: none;">About</a> &nbsp;|&nbsp; 
+        <a href="{{ url_for('faqs') }}" style="color: white; text-decoration: none;">FAQs</a> &nbsp;|&nbsp;
+        <a href="{{ url_for('privacy_policy') }}" style="color: white; text-decoration: none;">Privacy Policy</a> &nbsp;|&nbsp; 
+        <a href="{{ url_for('terms_of_service') }}" style="color: white; text-decoration: none;">Terms of Service</a> &nbsp;|&nbsp; 
+        <a href="{{ url_for('contact') }}" style="color: white; text-decoration: none;">Contact</a>
+      </div>
+    </div>
+  </body>
+</html>

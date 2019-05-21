@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container">
+    <img src='{{ url_for('static', filename='images/home_page_bg1.jpg') }}' style="width: 100%;" />
+    <form>
+      <button class="btn btn-lg" type="submit" formaction="{{ url_for('show_category') }}" style="position:absolute; left: 20%; top: 60%; border-radius: 25px;"><strong>Browse the Market</strong></button>
+      <button class="btn btn-lg" type="submit" formaction="{{ url_for('upload_dataset') }}" style="position:absolute; left: 65%; top: 60%; border-radius: 25px; width: 200px;"><strong>Sell</strong></button>
+    </form>
+  </div>
+{% endblock %}

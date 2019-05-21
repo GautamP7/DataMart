@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div style="text-align: center;"><h2>{{ dataset.OfferingName }}</h2></div><br>
+  <div style="width: 80%; display: block; margin-left: auto; margin-right: auto; text-align: center;">
+    <div class="right" style="margin: auto;">
+      {% if buyer is not none %}
+        <form action="{{ url_for('download_dataset', oid=dataset.OfferingId) }}" method="post" enctype="multipart/form-data" novalidate>
+          <button class="btn btn-primary"><i class="glyphicon glyphicon-download-alt"></i> Download</button>
+        </form>
+      {% elif dataset.Price > 0 %}
+        {% if dataset.OfferingType == 1 %}
+        <h4><strong>Price: ${{ dataset.Price }}</strong></h4>
+        {% elif dataset.OfferingType == 2 %}
+        <h4><strong>Price: ${{ dataset.Price }}/month</strong></h4>
+        {% endif %}
+        <form action="{{ url_for('buy', oid=dataset.OfferingId) }}" method="POST">
+        <script
+          src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+          data-key="pk_test_PMPhhrnozYIagucJFWEmIYMb"
+          data-amount="{{dataset.Price * 100}}"
+          data-name="DataMart"
+          data-label="Buy"
+          data-email="{{user.EmailId}}"
+          data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+          data-locale="auto">
+        </script>
+        </form>
+      {% else %}
+        <h4><strong>Free</strong></h4>
+        <form action="{{ url_for('download_dataset', oid=dataset.OfferingId) }}" method="post" enctype="multipart/form-data" novalidate>
+          <button class="btn btn-primary"><i class="glyphicon glyphicon-download-alt"></i> Download</button>
+        </form>
+      {% endif %}
+    </div>
+    <div class="left" style="text-align: justify;">
+      <h4>{{ dataset.Description }}</h4>
+    </div>
+  </div>
+  <div style="width: 80%; display: block; margin-left: auto; margin-right: auto;">
+    <p style="font-size: 16px;">
+      <a href="{{ url_for('download_license', oid=dataset.OfferingId) }}" style="text-decoration: none;">License Terms</a><br></h4>
+      Seller: <strong>{{ dataset.owner.UserName }}</strong><br>
+      {% if dataset.OfferingType == 1 %}
+        Offering Type: <strong>One time use</strong><br>
+      {% elif dataset.OfferingType == 2 %}
+        Offering Type: <strong>Subscription</strong><br>
+        Update Frequency: <strong>{{ uf }}</strong><br>
+      {% endif %}
+      Category: <strong>{{ dataset.Category }}</strong><br>
+      Region: <strong>{{ dataset.Region }}</strong><br>
+      Created: <strong>{{ dataset.DateCreated.strftime("%m/%d/%Y") }}</strong><br>
+      Last Updated: <strong>{{ dataset.DateLastUpdated.strftime("%m/%d/%Y") }}</strong><br>
+      {% if dataset.SampleFileName is not none %}
+        <br>
+        <a href="{{ url_for('download_sample', oid=dataset.OfferingId) }}" style="text-decoration: none;">Download Sample</a><br></h4>
+      {% endif %}
+    </p>  
+  </div>
+  
+  
+  <style type="text/css">
+    .right{
+      width:150px;
+      min-height:150px;
+      float:right;
+      /*background:red;*/
+    }
+    .left{
+      min-height:150px;
+      /*background:green;*/
+      overflow:hidden;
+    }
+  </style>
+{% endblock %}

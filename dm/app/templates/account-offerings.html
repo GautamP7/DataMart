@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container"> 
+    <ul class="nav nav-tabs nav-justified" style="text-align: center;">
+      <li class="active"><a href=""><strong>My data offerings</strong></a></li>
+      <li><a href="{{ url_for('my_purchases') }}"><strong>My purchases</strong></a></li>
+      <li><a href="{{ url_for('profile') }}"><strong>Profile</strong></a></li>
+      <li><a href="{{ url_for('payment_details') }}"><strong>Payment details</strong></a></li>
+    </ul>
+    <div>
+      <br>
+      <h3>My Data Offerings</h3>
+      <form action="{{ url_for('upload_dataset') }}">
+        <button class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Add offering</button>
+      </form><br>
+      {% for offering in offerings %}
+        <div style="font-size: 18px;">
+          <a href="{{ url_for('show_dataset_details', oid=offering.OfferingId, dn=offering.OfferingName.replace(' ', '-').lower()) }}" style="text-decoration: none;">{{ offering.OfferingName }}</a>
+          <form class="pull-right" style="display: inline;" action="{{ url_for('remove_dataset', oid=offering.OfferingId) }}" method="post">
+            <button class="btn btn-link"><i class="glyphicon glyphicon-trash"></i> Request removal</button>
+          </form>
+          <form class="pull-right" style="display: inline;" action="{{ url_for('update_license', oid=offering.OfferingId) }}" method="post">
+            <button class="btn btn-link"><i class="glyphicon glyphicon-edit"></i> Update license</button>
+          </form>
+          <form class="pull-right" style="display: inline;" action="{{ url_for('update_dataset_details', oid=offering.OfferingId) }}" method="post">
+            <button class="btn btn-link"><i class="glyphicon glyphicon-edit"></i> Edit details</button>
+          </form>
+          <form class="pull-right" style="display: inline;" action="{{ url_for('update_dataset', oid=offering.OfferingId) }}" method="post">
+            <button class="btn btn-link"><i class="glyphicon glyphicon-edit"></i> Update dataset</button>
+          </form>
+          <br>
+          <p style="font-size: 14px; display: inline;">
+            {% if offering.Price > 0 %}
+              {% if offering.OfferingType == 1 %}
+                Price: ${{ offering.Price }}<br>
+              {% elif offering.OfferingType == 2 %}
+                Price: ${{ offering.Price }}/month<br>
+              {% endif %}
+              Sales: {{ offering.Sales|length }}<br>
+            {% else %}
+              Free<br>
+            {% endif %}
+            Category: {{ offering.Category }}<br>
+            Description: {{ offering.Description }}<br>
+          </p>
+          <br>
+        </div>
+      {% endfor %}   
+    </div>
+    <div>
+      <br>
+      <h3>Sales history</h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Dataset</th>
+            <th>Purchased by</th>
+            <th>Date sold</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if sales %}
+            {% for item in sales %}
+              <tr>
+                <td><a href="{{ url_for('show_dataset_details', oid=item.dataset.OfferingId, dn=item.dataset.OfferingName.replace(' ', '-').lower()) }}" style="text-decoration: none;">{{ item.dataset.OfferingName }}</a></td>
+                <td>{{ item.buyer.UserName }}</td>
+                <td>{{ item.SaleDate.strftime('%m/%d/%Y') }}</td>
+                <td>{{ item.SalePrice }}</td>
+              </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td colspan="3">You have no sales.</td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}

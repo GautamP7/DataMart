@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+  <head>
+    {% if title %}
+    <title>{{ title }} - DataMart</title>
+    {% else %}
+    <title>Welcome to DataMart</title>
+    {% endif %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename="css/bootstrap-theme.min.css") }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style type="text/css">
+      
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      #wrapper {
+        min-height: 100%;
+        position: relative;
+        width: 100%;
+      }
+
+      #footer {
+        height: 20px;
+        width: 100%;
+        position: absolute;
+        left: 0px;
+        bottom: 0px;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div id="wrapper" class="container">
+      <br>
+      <div class="container">
+      <div class="row">
+          <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            
+            <span class="pull-left">
+              <a href="{{ url_for('index') }}" style="text-decoration: none;">
+                <img src="{{ url_for('static', filename='images/dm.png') }}" width="60" height="60" style="display: inline;" alt="DataMart logo" />
+              </a>
+              <h1 style="display: inline; vertical-align: middle;">
+                <a href="{{ url_for('index') }}" style="text-decoration: none; color: rgb(56,56,56)">DataMart</a>
+              </h1>
+              <form class="form-inline" action="" method="post" style="display: inline-block;" novalidate>
+                <input type="text" class="form-control" placeholder="Search..." name="search">
+                <button class="btn btn-secondary" type="submit" formaction="{{ url_for('search_datasets') }}">
+                  <span class="glyphicon glyphicon-search"></span>
+                </button>
+              </form>
+            </span>
+               
+            <span class="pull-right">
+              <form class="form-inline">
+                {% if current_user.is_anonymous %}
+                  <button class="btn" type="submit" formaction="{{ url_for('login') }}"><strong>Login</strong></button>
+                  <button class="btn" type="submit" formaction="{{ url_for('signup') }}"><strong>Sign Up</strong></button>
+                {% else %}
+                  <div class="btn-group">
+                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <strong>{{ current_user.UserName }} </strong><span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                      <li><a href="{{ url_for('my_offerings') }}">My data offerings</a></li>
+                      <li><a href="{{ url_for('my_purchases') }}">My purchases</a></li>
+                      <li><a href="{{ url_for('profile') }}">My profile</a></li>
+                      <li><a href="{{ url_for('payment_details') }}">Payment details</a></li>
+                      <li role="separator" class="divider"></li>
+                      <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                    </ul>
+                  </div>
+                <!-- <button class="btn" type="submit" formaction="{{ url_for('logout') }}"><strong>Logout</strong></button> -->
+                {% endif %}
+              </form>
+            </span>
+
+          </nav>
+      </div>
+    </div>
+    {% block content %}{% endblock %}
+    <br>
+    <div id="footer" class="container" style="background-color: rgb(36, 50, 63); color: white;">
+      &nbsp;&nbsp;
+      <a href="{{ url_for('about') }}" style="color: white; text-decoration: none;">About</a> &nbsp;|&nbsp; 
+      <a href="{{ url_for('faqs') }}" style="color: white; text-decoration: none;">FAQs</a> &nbsp;|&nbsp;
+      <a href="{{ url_for('privacy_policy') }}" style="color: white; text-decoration: none;">Privacy Policy</a> &nbsp;|&nbsp; 
+      <a href="{{ url_for('terms_of_service') }}" style="color: white; text-decoration: none;">Terms of Service</a> &nbsp;|&nbsp; 
+      <a href="{{ url_for('contact') }}" style="color: white; text-decoration: none;">Contact</a>
+    </div>
+  </div>
+  </body>
+</html>

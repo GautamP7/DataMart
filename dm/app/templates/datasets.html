@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container" style="text-align: center;"><h2>{{category_name}}</h2></div>
+  {% for dataset in datasets %}
+    <h3><a href="{{ url_for('show_dataset_details', oid=dataset.OfferingId, dn=dataset.OfferingName.replace(' ', '-').lower()) }}">{{dataset.OfferingName}}</a></h3>
+    <p style="font-size: 16px;">
+      {% if dataset.Price > 0 %}
+        {% if dataset.OfferingType == 1 %}
+          Price: ${{ dataset.Price }}<br>
+        {% elif dataset.OfferingType == 2 %}
+          Price: ${{ dataset.Price }}/month<br>
+        {% endif %}
+      {% else %}
+        Free<br>
+      {% endif %}
+      Description: {{ dataset.Description }}
+    </p>
+    <br>
+  {% endfor %}
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container" style="text-align: center;"><h2>Edit Dataset Details</h2></div>
+  <div style="width: 50%;">
+    <form action="" method="post" enctype="multipart/form-data" novalidate>
+      {{ form.hidden_tag() }}
+      <p>
+        {{ form.offering_name.label }}<br>
+        {{ form.offering_name(class_="form-control", style="width:60%; display:inline;", value=dataset.OfferingName) }}
+        {% for error in form.offering_name.errors %}
+          <span class="alert alert-warning">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+      <p>
+        {{ form.description.label }}<br>
+        {{ form.description(class_="form-control", style="width:60%; display:inline;", text=dataset.Description) }}
+        {% for error in form.description.errors %} 
+          <span class="alert alert-warning">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+      <p>
+        {{ form.region.label }}<br>
+        {{ form.region(class_="form-control", style="width:60%; display:inline;", value=dataset.Region) }}
+        {% for error in form.region.errors %} 
+          <span class="alert alert-warning">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+      <p>
+        {{ form.last_updated.label }}<br>
+        {{ form.last_updated(class_="form-control", style="width:60%; display:inline;") }}
+        {% for error in form.last_updated.errors %} 
+          <span class="alert alert-warning">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+      {% if dataset.OfferingType == 2 %}
+        <p style="display: block;">
+          {{ form.update_frequency.label }}<br>
+          {{ form.update_frequency(class_="form-control", style="width:60%; display:inline;") }}
+          {% for error in form.update_frequency.errors %} 
+            <span class="alert alert-warning">[{{ error }}]</span>
+          {% endfor %}
+        </p>
+      {% else %}
+        <p style="display: none;">
+          {{ form.update_frequency.label }}<br>
+          {{ form.update_frequency(class_="form-control", style="width:60%; display:inline;") }}
+          {% for error in form.update_frequency.errors %} 
+            <span class="alert alert-warning">[{{ error }}]</span>
+          {% endfor %}
+        </p>
+      {% endif %}
+      <p>
+        {{ form.price.label }}<br>
+        {{ form.price(class_="form-control", style="width:60%; display:inline;", value=dataset.Price) }}
+        {% for error in form.price.errors %} 
+          <span class="alert alert-warning">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+      <p>
+        {{ form.submit(class_="btn btn-primary") }}
+        {{ form.back(class_="btn btn-danger") }}
+      </p>
+    </form>
+    
+  </div>
+{% endblock %}

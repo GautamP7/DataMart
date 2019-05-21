@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container"> 
+    <ul class="nav nav-tabs nav-justified" style="text-align: center;">
+      <li><a href="{{ url_for('my_offerings') }}"><strong>My data offerings</strong></a></li>
+      <li><a href="{{ url_for('my_purchases') }}"><strong>My purchases</strong></a></li>
+      <li class="active"><a href=""><strong>Profile</strong></a></li>
+      <li><a href="{{ url_for('payment_details') }}"><strong>Payment details</strong></a></li>
+    </ul>
+    <div>
+      <br>
+      <form style="float: left; width: 50%;" method="post" enctype="multipart/form-data" novalidate>
+        {{ form1.hidden_tag() }}
+        <h4>Personal Information</h4>
+        <hr style="width: 50%; margin-left: 0; margin-top: 0; color: grey; background-color: grey; height: 1px;">
+        <p>
+          {{ form1.first_name.label }}<br>
+          {{ form1.first_name(class_="form-control", style="width:50%; display:inline;") }}
+          {% for error in form1.first_name.errors %}
+            <span class="alert alert-warning">[{{ error }}]</span>
+          {% endfor %}
+        </p>
+        <p>
+          {{ form1.last_name.label }}<br>
+          {{ form1.last_name(class_="form-control", style="width:50%; display:inline;") }}
+          {% for error in form1.last_name.errors %}
+            <span class="alert alert-warning">[{{ error }}]</span>
+          {% endfor %}
+        </p>
+        <p>
+          {{ form1.dob.label }}<br>
+          {{ form1.dob(class_="form-control", style="width:50%; display:inline;") }}
+          {% for error in form1.dob.errors %}
+            <span class="alert alert-warning">[{{ error }}]</span>
+          {% endfor %}
+        </p>
+        <p>
+          {{ form1.phone.label }}<br>
+          {{ form1.phone(class_="form-control", style="width:50%; display:inline;") }}
+          {% for error in form1.phone.errors %}
+            <span class="alert alert-warning">[{{ error }}]</span>
+          {% endfor %}
+        </p>
+        <p>
+          {{ form1.address.label }}<br>
+          {{ form1.address(class_="form-control", style="width:50%; display:inline;") }}
+          {% for error in form1.address.errors %}
+            <span class="alert alert-warning">[{{ error }}]</span>
+          {% endfor %}
+        </p>
+        <p>
+          {{ form1.country.label }}<br>
+          {{ form1.country(class_="form-control", style="width:50%; display:inline;") }}
+          {% for error in form1.country.errors %}
+            <span class="alert alert-warning">[{{ error }}]</span>
+          {% endfor %}
+        </p>
+        <p>
+          {{ form1.submit(class_="btn btn-primary") }}
+        </p>
+      </form>
+      <form style="float: right; width: 50%;" method="post" enctype="multipart/form-data" novalidate>
+        {{ form2.hidden_tag() }}
+        <h4>Change Password</h4>
+        <hr style="width: 50%; margin-left: 0; margin-top: 0; color: grey; background-color: grey; height: 1px;">
+        <p>
+          {{ form2.password.label }}<br>
+          {{ form2.password(class_="form-control", style="width:50%; display:inline;") }}
+          {% for error in form2.password.errors %}
+            <span class="alert alert-warning">[{{ error }}]</span>
+          {% endfor %}
+        </p>
+        <p>
+          {{ form2.new_password.label }}<br>
+          {{ form2.new_password(class_="form-control", style="width:50%; display:inline;") }}
+          {% for error in form2.new_password.errors %}
+            <span class="alert alert-warning">[{{ error }}]</span>
+          {% endfor %}
+        </p>
+        <p>
+          {{ form2.confirm_password.label }}<br>
+          {{ form2.confirm_password(class_="form-control", style="width:50%; display:inline;") }}
+          {% for error in form2.confirm_password.errors %}
+            <span class="alert alert-warning">[{{ error }}]</span>
+          {% endfor %}
+        </p>
+        <p>
+          {{ form2.update(class_="btn btn-primary") }}
+        </p>
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-warning" style="width: 50%;" role="alert">
+              {{ message }}
+            </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+      </form>
+    </div>
+  </div>
+{% endblock %}

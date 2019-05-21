@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <form style="display: inline;" action="{{ url_for('show_datasets_all') }}" method="post" enctype="multipart/form-data" novalidate>
+    <button class="btn btn-primary"><i class="glyphicon glyphicon-th-list"></i> Full List of Data</button>
+  </form>
+  <form class="pull-right" style="display: inline;" action="{{ url_for('upload_dataset') }}">
+    <button class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Add offering</button>
+  </form>
+  <div class="container" style="text-align: center;"><h2>Categories</h2></div>
+  {% for key, val in categories.items() %}
+    <h4><a href="{{ url_for('show_datasets', cn=key) }}">{{val}}</a></h4>
+  {% endfor %}
+
+{% endblock %}

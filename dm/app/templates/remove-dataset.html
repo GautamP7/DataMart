@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container" style="text-align: center;"><h2>Request Dataset Removal</h2></div>
+  <div style="width: 50%;">
+    <form action="" method="post" enctype="multipart/form-data" novalidate>
+      {{ form.hidden_tag() }}
+      <p>
+        {{ form.message.label }}<br>
+        {{ form.message(style="width:60%; display:inline;") }}
+        {% for error in form.message.errors %} 
+          <span class="alert alert-warning">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+      <p>
+        {{ form.submit(class_="btn btn-primary") }}
+        {{ form.back(class_="btn btn-danger") }}
+      </p>
+    </form>
+  </div>
+{% endblock %}
